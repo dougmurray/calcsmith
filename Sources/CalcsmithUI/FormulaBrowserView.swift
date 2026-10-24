@@ -30,7 +30,7 @@ public struct FormulaBrowserView: View {
             }
         }
         #else
-        NavigationStack {
+        NavigationStack(path: $store.path) {
             list
                 .navigationTitle("Formulas")
                 .navigationDestination(for: Formula.ID.self) { id in
@@ -43,28 +43,39 @@ public struct FormulaBrowserView: View {
     }
 
     private var list: some View {
-        List(selection: $store.selectedID) {
-            if store.isSearching {
-                ForEach(store.results) { formula in
-                    row(formula, showTopic: true)
-                }
-            } else {
-                ForEach(store.groupedResults, id: \.topic) { group in
-                    Section(group.topic) {
-                        ForEach(group.formulas) { row($0, showTopic: false) }
-                    }
+        // Only macOS binds the selection: on iOS a selection binding makes rows
+        // record a selection on tap instead of following their NavigationLink.
+        #if os(macOS)
+        List(selection: $store.selectedID) { listContent }
+            .overlay { noResults }
+        #else
+        List { listContent }
+            .searchable(text: $store.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search formulas")
+            .searchFocused($searchFocused)
+            .onSubmit(of: .search) { store.openTopResult() }
+            .overlay { noResults }
+        #endif
+    }
+
+    @ViewBuilder
+    private var listContent: some View {
+        if store.isSearching {
+            ForEach(store.results) { formula in
+                row(formula, showTopic: true)
+            }
+        } else {
+            ForEach(store.groupedResults, id: \.topic) { group in
+                Section(group.topic) {
+                    ForEach(group.formulas) { row($0, showTopic: false) }
                 }
             }
         }
-        #if os(iOS)
-        .searchable(text: $store.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search formulas")
-        .searchFocused($searchFocused)
-        .onSubmit(of: .search) { store.openTopResult() }
-        #endif
-        .overlay {
-            if store.results.isEmpty {
-                ContentUnavailableView.search(text: store.query)
-            }
+    }
+
+    @ViewBuilder
+    private var noResults: some View {
+        if store.results.isEmpty {
+            ContentUnavailableView.search(text: store.query)
         }
     }
 

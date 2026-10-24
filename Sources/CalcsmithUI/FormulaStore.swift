@@ -7,6 +7,8 @@ import Observation
 public final class FormulaStore {
     public var query = ""
     public var selectedID: Formula.ID?
+    /// iOS navigation stack of open formulas (macOS uses `selectedID` in a split view instead).
+    public var path: [Formula.ID] = []
     /// Bumped when the inputs should take keyboard focus (e.g. Return in the search field).
     public private(set) var focusInputsRequest = 0
     /// Set alongside `focusInputsRequest`; consumed by the detail view that takes focus.
@@ -41,6 +43,9 @@ public final class FormulaStore {
     public func openTopResult() {
         guard let first = results.first else { return }
         selectedID = first.id
+        #if os(iOS)
+        path = [first.id]
+        #endif
         requestInputFocus()
     }
 
