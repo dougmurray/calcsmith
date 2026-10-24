@@ -1,0 +1,446 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		44CB0701B2CB9387D7B1BDC4 /* CalcsmithUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7906953C1DBEBDA5A1FCAA2A /* CalcsmithUI */; };
+		75DDC4C533774962F0557B9B /* CalcsmithiOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004CE2655D9A3F65DE9F20CB /* CalcsmithiOSApp.swift */; };
+		B4B7F4822780C174D5306D2D /* CalcsmithMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1175E06CEE1D32C04374B0 /* CalcsmithMacApp.swift */; };
+		D7659FA4C25CC242AA146B4E /* CalcsmithUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5862B9AD1BC369C8660726DF /* CalcsmithUI */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		004CE2655D9A3F65DE9F20CB /* CalcsmithiOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcsmithiOSApp.swift; sourceTree = "<group>"; };
+		18B7F7B939A28C1F1EB99CD8 /* Calcsmith-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "Calcsmith-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D1175E06CEE1D32C04374B0 /* CalcsmithMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcsmithMacApp.swift; sourceTree = "<group>"; };
+		4F2E8D5D87554A868EAAD683 /* Calcsmith-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Calcsmith-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D794541CDE33E0AF06DFF7EE /* calcsmith */ = {isa = PBXFileReference; lastKnownFileType = folder; name = calcsmith; path = .; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46314E6771F79D34EB663A5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D7659FA4C25CC242AA146B4E /* CalcsmithUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D60A4B08630CC61A5D8B832F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				44CB0701B2CB9387D7B1BDC4 /* CalcsmithUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16FDCF45A5BAF7486CA91E80 = {
+			isa = PBXGroup;
+			children = (
+				63385B25D98153C1420BB81B /* Apps */,
+				9CAFCF5C709902BF0AB729BC /* Packages */,
+				F7948DF53E0CC84DFFF85B70 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		34B6486BC3B7E2D3B1A25D89 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				004CE2655D9A3F65DE9F20CB /* CalcsmithiOSApp.swift */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		63385B25D98153C1420BB81B /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				34B6486BC3B7E2D3B1A25D89 /* iOS */,
+				90F10CB17AF27CCE6F8DBDB5 /* macOS */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		90F10CB17AF27CCE6F8DBDB5 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				3D1175E06CEE1D32C04374B0 /* CalcsmithMacApp.swift */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		9CAFCF5C709902BF0AB729BC /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				D794541CDE33E0AF06DFF7EE /* calcsmith */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		F7948DF53E0CC84DFFF85B70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				18B7F7B939A28C1F1EB99CD8 /* Calcsmith-iOS.app */,
+				4F2E8D5D87554A868EAAD683 /* Calcsmith-macOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1FACECD0C5660ED9659B93C /* Calcsmith-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DFCAFC68E4BAD0C7690E6373 /* Build configuration list for PBXNativeTarget "Calcsmith-macOS" */;
+			buildPhases = (
+				F7C55C87709A7D987153DD79 /* Sources */,
+				46314E6771F79D34EB663A5E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Calcsmith-macOS";
+			packageProductDependencies = (
+				5862B9AD1BC369C8660726DF /* CalcsmithUI */,
+			);
+			productName = "Calcsmith-macOS";
+			productReference = 4F2E8D5D87554A868EAAD683 /* Calcsmith-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FC9F457BF86E6256570C8535 /* Calcsmith-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 98FE48A7DF1E514F0540854E /* Build configuration list for PBXNativeTarget "Calcsmith-iOS" */;
+			buildPhases = (
+				EBC9EBD81749BEA99F22C024 /* Sources */,
+				D60A4B08630CC61A5D8B832F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Calcsmith-iOS";
+			packageProductDependencies = (
+				7906953C1DBEBDA5A1FCAA2A /* CalcsmithUI */,
+			);
+			productName = "Calcsmith-iOS";
+			productReference = 18B7F7B939A28C1F1EB99CD8 /* Calcsmith-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD5357A829B1E72034F5BF43 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					D1FACECD0C5660ED9659B93C = {
+						ProvisioningStyle = Manual;
+					};
+					FC9F457BF86E6256570C8535 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2B54C5F647AD6A94B114C42E /* Build configuration list for PBXProject "Calcsmith" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 16FDCF45A5BAF7486CA91E80;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				89C2E575DFFF55EC32059600 /* XCLocalSwiftPackageReference "." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F7948DF53E0CC84DFFF85B70 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1FACECD0C5660ED9659B93C /* Calcsmith-macOS */,
+				FC9F457BF86E6256570C8535 /* Calcsmith-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBC9EBD81749BEA99F22C024 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75DDC4C533774962F0557B9B /* CalcsmithiOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7C55C87709A7D987153DD79 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B4B7F4822780C174D5306D2D /* CalcsmithMacApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		38B4E2B6DF731032D96404B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.douglassmurray.calcsmith;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		8506DF9FE934B68C26F6D790 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Calcsmith;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = Calcsmith;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		AF0FF6A7393D315B4A54755C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Calcsmith;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = Calcsmith;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		D7B138D1BF90B890A5D4A51F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.douglassmurray.calcsmith;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		FAC061B37A9B42C4CAC6276E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.douglassmurray.calcsmith;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		FE33F4DCB36E5DB8DA13B5E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.douglassmurray.calcsmith;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2B54C5F647AD6A94B114C42E /* Build configuration list for PBXProject "Calcsmith" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF0FF6A7393D315B4A54755C /* Debug */,
+				8506DF9FE934B68C26F6D790 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		98FE48A7DF1E514F0540854E /* Build configuration list for PBXNativeTarget "Calcsmith-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAC061B37A9B42C4CAC6276E /* Debug */,
+				D7B138D1BF90B890A5D4A51F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DFCAFC68E4BAD0C7690E6373 /* Build configuration list for PBXNativeTarget "Calcsmith-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE33F4DCB36E5DB8DA13B5E4 /* Debug */,
+				38B4E2B6DF731032D96404B0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		89C2E575DFFF55EC32059600 /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5862B9AD1BC369C8660726DF /* CalcsmithUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CalcsmithUI;
+		};
+		7906953C1DBEBDA5A1FCAA2A /* CalcsmithUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CalcsmithUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = FD5357A829B1E72034F5BF43 /* Project object */;
+}
