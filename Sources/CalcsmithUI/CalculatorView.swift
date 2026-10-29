@@ -214,7 +214,12 @@ struct Keypad: View {
         [ins("("), ins(")"), ins("π", "π", separate: true), ins("e", "e", separate: true), ins("∥", "∥")],
     ]
 
-    static let prefixRow: [Key] = ["p", "n", "μ", "m", "k", "M", "G"].map { ins($0, $0, .prefix) }
+    /// Largest on the left. iOS drops G to fit femto on a phone-width row.
+    #if os(iOS)
+    static let prefixRow: [Key] = ["M", "k", "m", "μ", "n", "p", "f"].map { ins($0, $0, .prefix) }
+    #else
+    static let prefixRow: [Key] = ["G", "M", "k", "m", "μ", "n", "p", "f"].map { ins($0, $0, .prefix) }
+    #endif
 
     static let mainRows: [[Key]] = [
         [ins("7", nil, .digit), ins("8", nil, .digit), ins("9", nil, .digit), ins("÷", "/", .op),

@@ -164,7 +164,7 @@ public struct FormulaDetailView: View {
     /// SI prefixes and units are awkward on the numeric keyboard; offer them above it.
     private var prefixBar: some View {
         HStack {
-            ForEach(["p", "n", "μ", "m", "k", "M", "G", "e"], id: \.self) { p in
+            ForEach(["M", "k", "m", "μ", "n", "p", "f", "e"], id: \.self) { p in
                 Button(p) {
                     guard let sym = focusedSymbol else { return }
                     store.update(formula) { $0.inputs[sym, default: ""] += p }
