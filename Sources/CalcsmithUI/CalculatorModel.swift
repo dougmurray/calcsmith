@@ -13,6 +13,9 @@ public final class CalculatorModel {
 
     /// The text being edited. Typing on the Mac keyboard and pressing keypad buttons both edit this.
     public var expression = ""
+    /// Characters before the iOS caret; nil means the end of `expression`, which is the
+    /// only position on macOS (its text field keeps its own cursor).
+    public private(set) var cursor: Int?
     public private(set) var history: [Entry] = []
     public private(set) var errorMessage: String?
     /// The last evaluated expression, shown above the result after "=".
@@ -87,28 +90,49 @@ public final class CalculatorModel {
     ///   an explicit "×" is inserted, so "2" then "e" reads 2×e rather than an exponent.
     public func insert(_ text: String, separateFromNumber: Bool = false) {
         let old = expression
-        if separateFromNumber, let last = expression.last, last.isNumber || last == ")" {
-            expression += "×"
+        var (head, tail) = splitAtCursor()
+        if separateFromNumber, let last = head.last, last.isNumber || last == ")" {
+            head += "×"
         }
-        expression += text
+        head += text
+        expression = head + tail
+        cursor = tail.isEmpty ? nil : head.count
         textDidChange(from: old)
     }
 
     public func backspace() {
         errorMessage = nil
         justEvaluated = false
+        var (head, tail) = splitAtCursor()
+        defer {
+            expression = head + tail
+            cursor = tail.isEmpty ? nil : head.count
+        }
         // Remove whole function names like "sin(" in one press.
         for name in ExpressionEvaluator.functionNames.sorted(by: { $0.count > $1.count })
-        where expression.hasSuffix(name + "(") {
-            expression.removeLast(name.count + 1)
+        where head.hasSuffix(name + "(") {
+            head.removeLast(name.count + 1)
             return
         }
-        if expression.hasSuffix("ans") { expression.removeLast(3); return }
-        if !expression.isEmpty { expression.removeLast() }
+        if head.hasSuffix("ans") { head.removeLast(3); return }
+        if !head.isEmpty { head.removeLast() }
+    }
+
+    /// Moves the caret by `offset` characters, clamped to the expression.
+    public func moveCursor(by offset: Int) {
+        let position = min(max(0, (cursor ?? expression.count) + offset), expression.count)
+        cursor = position == expression.count ? nil : position
+    }
+
+    private func splitAtCursor() -> (head: String, tail: String) {
+        guard let cursor, cursor < expression.count else { return (expression, "") }
+        let i = expression.index(expression.startIndex, offsetBy: cursor)
+        return (String(expression[..<i]), String(expression[i...]))
     }
 
     public func clear() {
         expression = ""
+        cursor = nil
         errorMessage = nil
         lastExpression = nil
         justEvaluated = false
@@ -125,6 +149,7 @@ public final class CalculatorModel {
             if history.count > Self.historyLimit { history.removeFirst(history.count - Self.historyLimit) }
             saveHistory()
             expression = ""
+            cursor = nil
             errorMessage = nil
             justEvaluated = true
         } catch {
@@ -135,6 +160,7 @@ public final class CalculatorModel {
     /// Re-load a previous expression for editing.
     public func recall(_ entry: Entry) {
         expression = entry.expression
+        cursor = nil
         errorMessage = nil
         justEvaluated = false
     }

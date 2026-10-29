@@ -54,6 +54,8 @@ public struct CalculatorView: View {
                 .labelStyle(.iconOnly)
                 .buttonBorderShape(.capsule)
                 .controlSize(.small)
+                cursorButton("chevron.left", by: -1, key: .leftArrow)
+                cursorButton("chevron.right", by: 1, key: .rightArrow)
                 #endif
                 Spacer()
                 if let last = model.lastExpression, !model.isPreview {
@@ -110,15 +112,43 @@ public struct CalculatorView: View {
             .onChange(of: model.expression) { old, _ in model.textDidChange(from: old) }
             .onExitCommand { model.clear() }
         #else
-        ScrollView(.horizontal, showsIndicators: false) {
-            Text(model.expression.isEmpty ? " " : model.expression)
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 0) {
+                    if let cursor = model.cursor {
+                        // A caret is drawn only when it's moved off the end.
+                        let i = model.expression.index(model.expression.startIndex, offsetBy: cursor)
+                        Text(model.expression[..<i])
+                        Rectangle().fill(.tint).frame(width: 2, height: 26).id("caret")
+                        Text(model.expression[i...])
+                    } else {
+                        Text(model.expression.isEmpty ? " " : model.expression)
+                    }
+                }
                 .font(.system(size: 22, design: .monospaced))
                 .lineLimit(1)
+            }
+            .defaultScrollAnchor(.trailing)
+            .onChange(of: model.cursor) { _, new in
+                if new != nil { proxy.scrollTo("caret") }
+            }
         }
-        .defaultScrollAnchor(.trailing)
         .frame(maxWidth: .infinity, alignment: .trailing)
         #endif
     }
+
+    #if os(iOS)
+    private func cursorButton(_ symbol: String, by offset: Int, key: KeyEquivalent) -> some View {
+        Button { model.moveCursor(by: offset) } label: {
+            Image(systemName: symbol)
+        }
+        .buttonStyle(.bordered)
+        .buttonBorderShape(.capsule)
+        .controlSize(.small)
+        .keyboardShortcut(key, modifiers: [])
+        .disabled(model.expression.isEmpty)
+    }
+    #endif
 }
 
 // MARK: - History
