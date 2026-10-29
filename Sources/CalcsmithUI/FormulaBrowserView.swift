@@ -13,21 +13,27 @@ public struct FormulaBrowserView: View {
 
     public var body: some View {
         #if os(macOS)
-        NavigationSplitView {
+        // Detail on the left and the list on the right, with the divider where the calculator's
+        // keypad | history divider sits; NavigationSplitView can only put its sidebar on the left.
+        HStack(spacing: 0) {
+            Group {
+                if let id = store.selectedID, let formula = FormulaLibrary.formula(id: id) {
+                    FormulaDetailView(formula: formula, store: store)
+                        .id(id)
+                } else {
+                    ContentUnavailableView(
+                        "Choose a formula", systemImage: "function",
+                        description: Text("Search by name, topic, or variable. Press Return to open the top match."))
+                }
+            }
+            .frame(width: 440)
+            .frame(maxHeight: .infinity)
+            Divider()
             VStack(spacing: 0) {
                 searchField
                 list
             }
-            .navigationSplitViewColumnWidth(min: 240, ideal: 300)
-        } detail: {
-            if let id = store.selectedID, let formula = FormulaLibrary.formula(id: id) {
-                FormulaDetailView(formula: formula, store: store)
-                    .id(id)
-            } else {
-                ContentUnavailableView(
-                    "Choose a formula", systemImage: "function",
-                    description: Text("Search by name, topic, or variable. Press Return to open the top match."))
-            }
+            .frame(minWidth: 220)
         }
         #else
         NavigationStack(path: $store.path) {
@@ -47,6 +53,7 @@ public struct FormulaBrowserView: View {
         // record a selection on tap instead of following their NavigationLink.
         #if os(macOS)
         List(selection: $store.selectedID) { listContent }
+            .listStyle(.sidebar)
             .overlay { noResults }
         #else
         List { listContent }
