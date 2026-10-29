@@ -86,6 +86,23 @@ public final class CalculatorModel {
         justEvaluated = false
     }
 
+    /// Call before `textDidChange` when the Mac text field changes. Its native paste skips
+    /// `paste(_:)`, so a multi-character insertion is cleaned the same way: "15.6 Hz" → "15.6".
+    public func cleanPastedText(from old: String) {
+        let new = Array(expression), before = Array(old)
+        var start = 0
+        while start < min(new.count, before.count), new[start] == before[start] { start += 1 }
+        var end = 0
+        while end < min(new.count, before.count) - start,
+              new[new.count - 1 - end] == before[before.count - 1 - end] { end += 1 }
+        let inserted = String(new[start..<(new.count - end)])
+        guard inserted.count > 1 else { return }
+        let cleaned = ExpressionEvaluator.expression(fromPasted: inserted)
+        if cleaned != inserted {
+            expression = String(new[..<start]) + cleaned + String(new[(new.count - end)...])
+        }
+    }
+
     /// - Parameter separateFromNumber: for constants and functions — after a digit or ")"
     ///   an explicit "×" is inserted, so "2" then "e" reads 2×e rather than an exponent.
     public func insert(_ text: String, separateFromNumber: Bool = false) {

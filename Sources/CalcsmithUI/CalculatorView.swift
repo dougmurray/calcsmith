@@ -129,7 +129,10 @@ public struct CalculatorView: View {
             .multilineTextAlignment(.trailing)
             .focused($fieldFocused)
             .onSubmit { model.evaluate(); fieldFocused = true }
-            .onChange(of: model.expression) { old, _ in model.textDidChange(from: old) }
+            .onChange(of: model.expression) { old, _ in
+                model.cleanPastedText(from: old)
+                model.textDidChange(from: old)
+            }
             .onExitCommand { model.clear() }
         #else
         ScrollViewReader { proxy in
