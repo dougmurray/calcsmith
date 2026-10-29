@@ -43,6 +43,16 @@ public struct CalculatorView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .fixedSize()
+                #if os(iOS)
+                // The iOS expression is display-only text, so it has no Edit menu to paste into.
+                PasteButton(payloadType: String.self) { strings in
+                    guard let text = strings.first else { return }
+                    Task { @MainActor in model.paste(text) }
+                }
+                .labelStyle(.iconOnly)
+                .buttonBorderShape(.capsule)
+                .controlSize(.small)
+                #endif
                 Spacer()
                 if let last = model.lastExpression, !model.isPreview {
                     Text(last)

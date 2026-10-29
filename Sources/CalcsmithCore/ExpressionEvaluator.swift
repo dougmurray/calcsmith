@@ -35,6 +35,34 @@ public struct ExpressionEvaluator: Sendable {
         return v
     }
 
+    /// Units that may trail a pasted quantity, longest first so "codes" wins over "s".
+    /// Prefixes stay attached: "4.7 pF" pastes as "4.7p".
+    static let pasteUnits: [String] = [
+        "V/√Hz", "V_rms", "codes", "ohms", "bits", "V/V", "W/W", "V/s", "H/m", "F/m",
+        "ohm", "LSB", "ppm", "Hz", "dB", "°C", "mm", "cm", "m%", "Ω", "V", "F", "W", "s", "H", "A",
+    ]
+
+    /// Turns copied text, such as a formula result "4.7 kΩ", into something the
+    /// calculator can evaluate ("4.7k"). Text that already evaluates is kept as is.
+    public static func expression(fromPasted text: String) -> String {
+        let t = text.components(separatedBy: .newlines).joined(separator: " ")
+            .trimmingCharacters(in: .whitespaces)
+        let probe = ExpressionEvaluator(variables: ["ans": 0, "Ans": 0])
+        func evaluates(_ s: String) -> Bool { (try? probe.evaluate(s)) != nil }
+        // Allow a space before a trailing SI prefix: "4.7 k" → "4.7k".
+        func joinPrefix(_ s: String) -> String {
+            s.trimmingCharacters(in: .whitespaces)
+                .replacingOccurrences(of: #"(\d)\s+([fpnuμµmkMGT])$"#, with: "$1$2", options: .regularExpression)
+        }
+        if evaluates(t) { return t }
+        for unit in pasteUnits where t.hasSuffix(unit) && t.count > unit.count {
+            let candidate = joinPrefix(String(t.dropLast(unit.count)))
+            if evaluates(candidate) { return candidate }
+        }
+        let joined = joinPrefix(t)
+        return evaluates(joined) ? joined : t
+    }
+
     public static let constants: [String: Double] = [
         "pi": .pi, "π": .pi, "e": M_E, "tau": 2 * .pi, "τ": 2 * .pi,
         "c": 299_792_458,  // speed of light, m/s

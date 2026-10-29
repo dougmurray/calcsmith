@@ -144,6 +144,13 @@ public final class CalculatorModel {
         insert(EngineeringFormatter.scientific(value, significantDigits: 15), separateFromNumber: true)
     }
 
+    /// Append copied text, e.g. a formula result "4.7 kΩ", with its unit removed.
+    public func paste(_ text: String) {
+        let cleaned = ExpressionEvaluator.expression(fromPasted: text)
+        guard !cleaned.isEmpty else { return }
+        insert(cleaned, separateFromNumber: true)
+    }
+
     public func clearHistory() {
         history.removeAll()
         saveHistory()

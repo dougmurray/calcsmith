@@ -141,11 +141,11 @@ public struct FormulaDetailView: View {
                         .minimumScaleFactor(0.5)
                     Spacer()
                     Button {
-                        Clipboard.copy(EngineeringFormatter.format(value, significantDigits: 6, unit: variant.unit))
+                        Clipboard.copy(EngineeringFormatter.quantity(value, unit: variant.unit))
                     } label: {
                         Label("Copy", systemImage: "doc.on.doc")
                     }
-                    .help("Copy result in engineering notation")
+                    .help("Copy result as shown")
                 }
                 Text(EngineeringFormatter.scientific(value) + (variant.unit.isEmpty ? "" : " \(variant.unit)"))
                     .font(.system(.caption, design: .monospaced))

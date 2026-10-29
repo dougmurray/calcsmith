@@ -56,6 +56,17 @@ import Testing
         #expect(v == 42)
     }
 
+    static let pastes: [(String, String)] = [
+        ("4.7 kΩ", "4.7k"), ("4.7kΩ", "4.7k"), ("4700 pF", "4700p"), ("1.59 kHz", "1.59k"),
+        ("12 codes", "12"), ("−2.2 nA", "−2.2n"), ("1e33 F", "1e33"), (" 2*pi*1k\n", "2*pi*1k"),
+        ("3 dB", "3"), ("1.6 mm", "1.6"), ("4.7 k", "4.7k"), ("ans+1", "ans+1"), ("hello", "hello"),
+    ]
+
+    @Test(arguments: pastes)
+    func cleansPastedText(_ pasted: String, _ expected: String) {
+        #expect(ExpressionEvaluator.expression(fromPasted: pasted) == expected)
+    }
+
     @Test(arguments: ["", "1+", "foo", "2 $ 3", "sin(1,2)", "1)"])
     func rejects(_ expr: String) {
         #expect(throws: EvaluationError.self) { try eval(expr) }
