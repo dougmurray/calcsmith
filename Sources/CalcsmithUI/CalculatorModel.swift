@@ -139,6 +139,12 @@ public final class CalculatorModel {
         justEvaluated = false
     }
 
+    /// Insert a previous expression into the current one, bracketed when it joins existing text.
+    public func insertExpression(_ entry: Entry) {
+        let trimmed = expression.trimmingCharacters(in: .whitespaces)
+        insert(trimmed.isEmpty ? entry.expression : "(\(entry.expression))", separateFromNumber: true)
+    }
+
     /// Insert a previous result into the current expression at full precision.
     public func insertValue(_ value: Double) {
         insert(EngineeringFormatter.scientific(value, significantDigits: 15), separateFromNumber: true)

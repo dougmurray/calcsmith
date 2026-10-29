@@ -141,26 +141,32 @@ struct HistoryList: View {
                 }
                 #endif
                 ForEach(model.history) { entry in
-                    Button {
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(entry.expression)
+                            .font(.system(.callout, design: .monospaced))
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                        Text("= " + model.format(entry.value))
+                            .font(.system(.title3, design: .rounded))
+                            .monospacedDigit()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .contentShape(Rectangle())
+                    // Double tap inserts the expression; single tap inserts the result.
+                    .onTapGesture(count: 2) {
+                        model.insertExpression(entry)
+                        refocus()
+                    }
+                    .onTapGesture {
                         model.insertValue(entry.value)
                         refocus()
-                    } label: {
-                        VStack(alignment: .trailing, spacing: 2) {
-                            Text(entry.expression)
-                                .font(.system(.callout, design: .monospaced))
-                                .foregroundStyle(.secondary)
-                                .lineLimit(2)
-                            Text("= " + model.format(entry.value))
-                                .font(.system(.title3, design: .rounded))
-                                .monospacedDigit()
-                        }
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityAction { model.insertValue(entry.value); refocus() }
                     .id(entry.id)
                     .contextMenu {
                         Button("Insert Result") { model.insertValue(entry.value); refocus() }
+                        Button("Insert Expression") { model.insertExpression(entry); refocus() }
                         Button("Edit Expression") { model.recall(entry); refocus() }
                         Button("Copy Result") { Clipboard.copy(EngineeringFormatter.scientific(entry.value, significantDigits: 15)) }
                         Button("Copy Engineering") { Clipboard.copy(model.format(entry.value)) }
