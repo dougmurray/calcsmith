@@ -47,7 +47,8 @@ public struct CalcsmithRootView: View {
             // Typing goes straight to search when the formula list opens.
             if new == .formulas { focusSearchSoon() }
         }
-        .onAppear { if mode == .formulas { focusSearchSoon() } }
+        // The Mac app always opens on the calculator, whatever mode it was left in.
+        .onAppear { mode = .calculator }
         #else
         TabView(selection: $mode) {
             Tab(AppMode.calculator.rawValue, systemImage: AppMode.calculator.systemImage, value: .calculator) {

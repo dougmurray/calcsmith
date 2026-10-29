@@ -4,6 +4,9 @@ import SwiftUI
 public struct CalculatorView: View {
     @Bindable var model: CalculatorModel
     @FocusState private var fieldFocused: Bool
+    #if os(macOS)
+    @State private var isShown = false
+    #endif
 
     public init(model: CalculatorModel) {
         self.model = model
@@ -22,7 +25,17 @@ public struct CalculatorView: View {
             HistoryList(model: model) { fieldFocused = true }
                 .frame(minWidth: 220)
         }
-        .onAppear { fieldFocused = true }
+        // Typing should always reach the expression, so focus is taken back whenever
+        // something else (the history list, the angle picker) takes it.
+        .defaultFocus($fieldFocused, true)
+        .onAppear {
+            isShown = true
+            focusFieldSoon()
+        }
+        .onDisappear { isShown = false }
+        .onChange(of: fieldFocused) { _, focused in
+            if !focused && isShown { focusFieldSoon() }
+        }
         #else
         VStack(spacing: 8) {
             // The list touches the top edge, so it would otherwise scroll under the status bar.
@@ -35,6 +48,13 @@ public struct CalculatorView: View {
         .padding(.bottom, 8)
         #endif
     }
+
+    #if os(macOS)
+    /// Deferred, because focus set while the view is still being installed is dropped.
+    private func focusFieldSoon() {
+        DispatchQueue.main.async { if isShown { fieldFocused = true } }
+    }
+    #endif
 
     private var display: some View {
         VStack(alignment: .trailing, spacing: 6) {
