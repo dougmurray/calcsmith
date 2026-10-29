@@ -5,10 +5,8 @@ public struct FormulaDetailView: View {
     let formula: Formula
     var store: FormulaStore
     @FocusState private var focusedSymbol: String?
-    #if os(iOS)
     /// The value of the field cleared on focus, put back if the user leaves it empty.
     @State private var clearedInput: (symbol: String, text: String)?
-    #endif
 
     public init(formula: Formula, store: FormulaStore) {
         self.formula = formula
@@ -48,8 +46,10 @@ public struct FormulaDetailView: View {
                     .background(.bar)
             }
         }
-        .onChange(of: focusedSymbol) { _, new in clearOnFocus(new) }
         #endif
+        .onChange(of: focusedSymbol) { _, new in clearOnFocus(new) }
+        // Switching formulas can remove this view without moving focus first.
+        .onDisappear { restoreCleared() }
         .modifier(TabCyclesSubject { forward in cycle(forward: forward) })
         .onChange(of: store.focusInputsRequest) { focusFirstInput() }
         .onAppear { if store.inputFocusPending { focusFirstInput() } }
@@ -192,33 +192,38 @@ public struct FormulaDetailView: View {
     #endif
 
     private func placeholder(for symbol: String) -> String {
-        #if os(iOS)
         if let cleared = clearedInput, cleared.symbol == symbol { return cleared.text }
-        #endif
         return symbol
     }
 
-    #if os(iOS)
     /// Empties a field as it gains focus so typing replaces the value straight away.
     private func clearOnFocus(_ symbol: String?) {
-        if let cleared = clearedInput {
-            store.update(formula) { s in
-                if (s.inputs[cleared.symbol] ?? "").isEmpty { s.inputs[cleared.symbol] = cleared.text }
-            }
-            clearedInput = nil
-        }
+        restoreCleared()
         guard let symbol, let text = session.inputs[symbol], !text.isEmpty else { return }
         clearedInput = (symbol, text)
         store.update(formula) { $0.inputs[symbol] = "" }
     }
-    #endif
+
+    /// Puts back the value of a cleared field the user left empty.
+    private func restoreCleared() {
+        guard let cleared = clearedInput else { return }
+        store.update(formula) { s in
+            if (s.inputs[cleared.symbol] ?? "").isEmpty { s.inputs[cleared.symbol] = cleared.text }
+        }
+        clearedInput = nil
+    }
 
     private func cycle(forward: Bool) {
         let keep = focusedSymbol
+        // Solve with the cleared field's value rather than an empty input.
+        restoreCleared()
         store.update(formula) { $0.cycleVariant(forward: forward) }
         // The focused symbol may now be the subject (no longer an input); fall back to the first input.
         let symbols = store.session(formula).variant.inputs.map(\.symbol)
-        focusedSymbol = keep.flatMap { symbols.contains($0) ? $0 : nil } ?? (keep == nil ? nil : symbols.first)
+        let next = keep.flatMap { symbols.contains($0) ? $0 : nil } ?? (keep == nil ? nil : symbols.first)
+        // Focus staying on the same field doesn't fire onChange, so clear it here.
+        if next == keep { clearOnFocus(next) }
+        focusedSymbol = next
     }
 
     private func focusFirstInput() {
