@@ -38,8 +38,15 @@ public struct FormulaDetailView: View {
         .navigationTitle(formula.name)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) { prefixBar }
+        // Not a `.keyboard` toolbar: leaving this view with the keyboard up through one
+        // left the Calculator tab laid out as if the keyboard were still showing.
+        .safeAreaInset(edge: .bottom) {
+            if focusedSymbol != nil {
+                prefixBar
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(.bar)
+            }
         }
         .onChange(of: focusedSymbol) { _, new in clearOnFocus(new) }
         #endif
@@ -174,7 +181,9 @@ public struct FormulaDetailView: View {
                     guard let sym = focusedSymbol else { return }
                     store.update(formula) { $0.inputs[sym, default: ""] += p }
                 }
-                .font(.system(.body, design: .monospaced).weight(.semibold))
+                .font(.system(.title3, design: .monospaced).weight(.semibold))
+                .frame(minWidth: 34, minHeight: 34)
+                .foregroundStyle(.primary)
             }
             Spacer()
             Button("Next") { if let sym = focusedSymbol, let i = session.variant.inputs.firstIndex(where: { $0.symbol == sym }) { focusNext(after: i) } }
