@@ -100,7 +100,7 @@ public struct FormulaDetailView: View {
                     .focused($focusedSymbol, equals: input.symbol)
                     .onSubmit { focusNext(after: idx) }
                     #if os(iOS)
-                    .keyboardType(.numbersAndPunctuation)
+                    .keyboardType(.decimalPad)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                     #endif
@@ -161,10 +161,10 @@ public struct FormulaDetailView: View {
     }
 
     #if os(iOS)
-    /// SI prefixes and units are awkward on the numeric keyboard; offer them above it.
+    /// The decimal pad has only digits and "."; offer SI prefixes above it.
     private var prefixBar: some View {
         HStack {
-            ForEach(["M", "k", "m", "μ", "n", "p", "f", "e"], id: \.self) { p in
+            ForEach(["M", "k", "m", "μ", "n", "p", "f"], id: \.self) { p in
                 Button(p) {
                     guard let sym = focusedSymbol else { return }
                     store.update(formula) { $0.inputs[sym, default: ""] += p }
