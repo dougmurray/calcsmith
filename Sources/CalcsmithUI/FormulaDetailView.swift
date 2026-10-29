@@ -5,6 +5,10 @@ public struct FormulaDetailView: View {
     let formula: Formula
     var store: FormulaStore
     @FocusState private var focusedSymbol: String?
+    #if os(iOS)
+    /// The value of the field cleared on focus, put back if the user leaves it empty.
+    @State private var clearedInput: (symbol: String, text: String)?
+    #endif
 
     public init(formula: Formula, store: FormulaStore) {
         self.formula = formula
@@ -37,6 +41,7 @@ public struct FormulaDetailView: View {
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) { prefixBar }
         }
+        .onChange(of: focusedSymbol) { _, new in clearOnFocus(new) }
         #endif
         .modifier(TabCyclesSubject { forward in cycle(forward: forward) })
         .onChange(of: store.focusInputsRequest) { focusFirstInput() }
@@ -91,7 +96,7 @@ public struct FormulaDetailView: View {
                     }
                     .gridColumnAlignment(.leading)
 
-                    TextField(input.symbol, text: Binding(
+                    TextField(placeholder(for: input.symbol), text: Binding(
                         get: { session.inputs[input.symbol] ?? "" },
                         set: { text in store.update(formula) { $0.inputs[input.symbol] = text } }
                     ))
@@ -174,6 +179,28 @@ public struct FormulaDetailView: View {
             Spacer()
             Button("Next") { if let sym = focusedSymbol, let i = session.variant.inputs.firstIndex(where: { $0.symbol == sym }) { focusNext(after: i) } }
         }
+    }
+    #endif
+
+    private func placeholder(for symbol: String) -> String {
+        #if os(iOS)
+        if let cleared = clearedInput, cleared.symbol == symbol { return cleared.text }
+        #endif
+        return symbol
+    }
+
+    #if os(iOS)
+    /// Empties a field as it gains focus so typing replaces the value straight away.
+    private func clearOnFocus(_ symbol: String?) {
+        if let cleared = clearedInput {
+            store.update(formula) { s in
+                if (s.inputs[cleared.symbol] ?? "").isEmpty { s.inputs[cleared.symbol] = cleared.text }
+            }
+            clearedInput = nil
+        }
+        guard let symbol, let text = session.inputs[symbol], !text.isEmpty else { return }
+        clearedInput = (symbol, text)
+        store.update(formula) { $0.inputs[symbol] = "" }
     }
     #endif
 
