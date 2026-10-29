@@ -25,7 +25,9 @@ public struct CalculatorView: View {
         .onAppear { fieldFocused = true }
         #else
         VStack(spacing: 8) {
+            // The list touches the top edge, so it would otherwise scroll under the status bar.
             HistoryList(model: model) {}
+                .clipped()
             display
             Keypad(model: model) {}
         }
